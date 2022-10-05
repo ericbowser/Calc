@@ -1,0 +1,111 @@
+﻿openapi: 3.0.0
+servers:
+  # Added by API Auto Mocking Plugin
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/ericryanbowser/Calc_API/1.0.0
+  - description: SwaggerHub API Auto Mocking
+    url: https://app.swaggerhub.com/apis/ericryanbowser/Calc_API/1.0.0#/
+info:
+  description: This is a simple Calc API
+  version: "1.0.0"
+  title: Simple Calc API
+  contact:
+    email: ericryanbowser@gmail.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: admins
+    description: Secured Admin-only calls
+  - name: developers
+    description: Operations available to regular developers
+paths:
+  /add:
+    post:
+      summary: adds two numbers
+      operationId: add
+      description: Adds two operands and returns the result
+      responses:
+        '200':
+          description: Numbers added!
+        '400':
+          description: 'invalid input, object invalid'
+        '500':
+          description: 'server error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Operands'
+        description: Adds numbers
+  /sub:
+    post:
+      summary: Subtracts first number from the second
+      operationId: Sub
+      description: Subtracts two numbers
+      responses:
+        '200':
+          description: Numbers reduced!
+        '400':
+          description: 'invalid input, object invalid'
+        '500':
+          description: 'server error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Operands'
+        description: Subtracts numbers
+  /mult:
+    post:
+      summary: Multiplies operands
+      operationId: mult
+      description: multiplies two numbers
+      responses:
+        '200':
+          description: Numbers timesed!
+        '400':
+          description: 'invalid input, object invalid'
+        '500':
+          description: 'server error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Operands'
+        description: Multiplies numbers
+  /div:
+    post:
+      summary: Divides operands
+      operationId: div
+      description: divides two numbers
+      responses:
+        '200':
+          description: Numbers div!
+        '400':
+          description: 'invalid input, object invalid'
+        '500':
+          description: 'server error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Operands'
+        description: Divides numbers
+components:
+  schemas:
+    Operands:
+      type: object
+      required: [
+        leftOperand,
+        rightOperand
+      ]
+      
+      properties:
+        leftOperand:
+          type: number
+          example: 1
+        rightOperand:
+          type: number
+          example: 48030
