@@ -1,69 +1,23 @@
 ﻿const express = require('express');
 const bodyParser = require('body-parser');
 const math = require('mathjs');
-const sql = require('mssql')
+const cors = require('cors');
 
 const router = express.Router();
 router.use(bodyParser.json());
-
-function badRequest(operands) {
-    const { leftOperand, rightOperand } = operands;
-
-    const badRequest = {
-        error: "One of the operands or both are invalid numbers",
-        paramaters: `left operand: ${leftOperand} right operand: ${rightOperand}`
-    };
-
-    if (!leftOperand || !rightOperand) {
-        return badRequest;
-    }
-
-    return true;
-}
-
-router.get("/", (req , res) => {
-    console.log("default route");
-    console.log("Fetching users");
-
-    const config = {
-        user: 'test',
-        password: 'test',
-        server: '(localdb)\MSSQLLocalDB',
-        database: 'Login'
-    }
-
-    sql.connect(config, () => {
-        console.log('connected to db');
-    });
-
-
-    const result = sql.query("SELECT * FROM [dbo].[User]")
-        .then(res => {
-            console.log(res)
-        });
-
-    console.log("fetched result: ", result);
-    sql.close();
-
-    return result;
-})
+router.use(cors());
 
 router.post("/add", (req, res) => {
     const operands = req.body;
 
-    const leftOperand = operands.leftOperand || undefined;
-    const rightOperand = operands.rightOperand || undefined;
+    const left = operands.left || undefined;
+    const right = operands.right || undefined;
 
-    if (!leftOperand || !rightOperand) {
-        const response = {
-            error: "One of the operands or both are invalid numbers",
-            paramaters: `left operand: ${leftOperand} right operand: ${rightOperand}`
-        };
-
-        res.status(400).send(response);
+    if (!left || !right) {
+        res.status(400).send();
     }
 
-    const result = math.add(leftOperand, rightOperand);
+    const result = math.add(left, right);
 
     const response = { result };
 
@@ -73,42 +27,69 @@ router.post("/add", (req, res) => {
 router.post("/sub", (req, res) => {
     const operands = req.body;
 
-    const leftOperand = operands.leftOperand || undefined;
-    const rightOperand = operands.rightOperand || undefined;
+    const left = operands.left || undefined;
+    const right = operands.right || undefined;
 
-    if (!leftOperand || !rightOperand) {
-        const response = {
-            error: "One of the operands or both are invalid numbers",
-            paramaters: `left operand: ${leftOperand} right operand: ${rightOperand}`
-        };
-
-        res.status(400).send(response);
+    if (!left || !right) {
+        res.status(400).send();
     }
 
-    const result = math.subtract(leftOperand, rightOperand);
+    const result = math.subtract(left, right);
 
-    res.status(200).send(result);
+    const response = { result };
+
+    res.status(200).send(response);
 })
 
 router.post("/mult", (req, res) => {
     const operands = req.body;
 
-    const leftOperand = operands.leftOperand || undefined;
-    const rightOperand = operands.rightOperand || undefined;
+    const left = operands.left || undefined;
+    const right = operands.right || undefined;
 
-    const isReqValid = badRequest(operands);
+    if (!left || !right) {
+        res.status(400).send();
+    }
 
-    res.status(400).send(response);
-
-    const result = math.subtract(leftOperand, rightOperand);
+    const result = math.multiply(left, right);
+    const response = {result};
 
     res.status(200).send(response);
 })
 
-// router.post("/div", (req, res) => {
-//     // const x = app.request.get("");
-//     console.log("called divide operation");
-//     res.send(10);
-// })
+router.post("/div", (req, res) => {
+    const operands = req.body;
+
+    const left = operands.left || undefined;
+    const right = operands.right || undefined;
+
+    if (!left || !right) {
+        res.status(400).send();
+    }
+
+    const result = math.divide(left, right);
+    const response = {result};
+
+    res.status(200).send(response);
+})
+
+router.post("/sqrt", (req, res) => {
+    const number = req.body;
+
+    const sqrt = number.sqrt || undefined;
+
+    if (!sqrt) {
+        res.status(400).send();
+    }
+
+    const result = math.sqrt(sqrt);
+    const response = {result};
+
+    res.status(200).send(response);
+})
+
+router.post("rand", () => {
+    res.status(200).send(() => console.log("TODO"));
+})
 
 module.exports = router;

@@ -3,8 +3,8 @@ const swaggerUI = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
 const server = require('./server');
 
-console.log('passed port to use', process.env.port | 3000);
-const port = process.env.port | 3000;
+console.log('passed port to use', 5000);
+const port = 5000;
 const app = express();
 app.use(server);
 
