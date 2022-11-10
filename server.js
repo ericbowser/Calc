@@ -3,9 +3,11 @@ const bodyParser = require('body-parser');
 const math = require('mathjs');
 const cors = require('cors');
 
+const app = express();
 const router = express.Router();
 router.use(bodyParser.json());
 router.use(cors());
+app.use(cors());
 
 router.post("/add", (req, res) => {
     const operands = req.body;

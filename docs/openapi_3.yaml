@@ -113,5 +113,8 @@ components:
     sqrt:
       required:
         - sqrt
-      type: number
-      example: 100
+      type: object
+      properties:
+        sqrt:
+          type: number
+          example: 100
