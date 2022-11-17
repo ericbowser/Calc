@@ -2,9 +2,11 @@ const express = require('express')
 const swaggerUI = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
 const server = require('./server');
+const dotenv = require('dotenv');
+dotenv.config();
 
 console.log('passed port to use', 5000);
-const port = 5000;
+const port = process.env.PORT || 5000;
 const app = express();
 app.use(server);
 
