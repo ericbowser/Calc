@@ -5,8 +5,8 @@ const server = require('./server');
 const dotenv = require('dotenv');
 dotenv.config();
 
-console.log('passed port to use', 5000);
 const port = process.env.PORT || 5000;
+console.log('passed port to use', port);
 const app = express();
 app.use(server);
 
