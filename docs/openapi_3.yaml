@@ -5,6 +5,11 @@ info:
   contact:
     email: eric@erb-tech.com
   version: 1.0.0
+servers:
+  - url: https://erb-tech.com
+    description: https url
+  - url: http://erb-tech.com
+    description: http route
 paths:
   /add:
     post:

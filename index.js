@@ -19,14 +19,14 @@ const options = {
             description: "A simple Express Calc API",
             contact: {
                 name: "API Support",
-                url: "https://engineer-it-all.com",
+                url: "https://erb-tech.com",
                 email: "eric@erb-tech.com",
             },
         },
 
         servers: [
             {
-                url: "http://localhost:5000",
+                url: "https://localhost:34349",
                 description: "My API Documentation",
             },
         ],
