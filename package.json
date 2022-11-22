@@ -4,7 +4,7 @@
   "description": "Calculator API",
   "main": "index.js",
   "scripts": {
-    "dev": "node index.js NODE_ENV=Production",
+    "dev": "node index.js",
     "clean": "rm -R node_modules"
   },
   "keywords": [

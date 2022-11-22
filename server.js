@@ -9,6 +9,19 @@ router.use(bodyParser.json());
 router.use(cors());
 app.use(cors());
 
+router.post("/login", (req, res) => {
+    const user = req.body;
+
+    const username = user.username || undefined;
+    const password = user.password || undefined;
+
+    if (!left || !right) {
+        res.status(400).send();
+    }
+
+    res.status(200).send();
+})
+
 router.post("/add", (req, res) => {
     const operands = req.body;
 

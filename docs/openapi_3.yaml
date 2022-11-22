@@ -96,6 +96,24 @@ paths:
           description: "bad request"
         "500":
           description: server error
+  /login:
+    post:
+      summary: User login
+      description: Logs in a user (username, password)
+      operationId: login
+      requestBody:
+        description: get username and password
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/login'
+      responses:
+        "200":
+          description: 200OK
+        "400":
+          description: "bad request"
+        "500":
+          description: server error
 components:
   schemas:
     Operands:
@@ -118,3 +136,15 @@ components:
         sqrt:
           type: number
           example: 100
+    login:
+      required:
+        - username
+        - password
+      type: object
+      properties:
+        username:
+            type: string
+            example: "testuser@user.com"
+        password:
+            type: string
+            example: "myPass"
