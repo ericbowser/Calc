@@ -1,13 +1,8 @@
 ﻿const express = require('express');
 const bodyParser = require('body-parser');
 const math = require('mathjs');
-const cors = require('cors');
-
-const app = express();
 const router = express.Router();
 router.use(bodyParser.json());
-router.use(cors());
-app.use(cors());
 
 router.post("/login", (req, res) => {
     const user = req.body;
@@ -15,7 +10,7 @@ router.post("/login", (req, res) => {
     const username = user.username || undefined;
     const password = user.password || undefined;
 
-    if (!left || !right) {
+    if (!username || !password) {
         res.status(400).send();
     }
 

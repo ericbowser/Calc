@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "forever": "forever index.js",
+    "dev": "nodemon index.js",
     "build": "node build",
     "clean": "rm -R node_modules && npm install"
   },

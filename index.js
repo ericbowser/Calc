@@ -3,12 +3,14 @@ const swaggerUI = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
 const server = require('./server');
 const dotenv = require('dotenv');
+const cors = require('cors');
 dotenv.config();
 
 const port = process.env.PORT || 5000;
 console.log('passed port to use', port);
 const app = express();
 app.use(server);
+app.use(cors());
 
 const options = {
     definition: {
@@ -19,14 +21,14 @@ const options = {
             description: "A simple Express Calc API",
             contact: {
                 name: "API Support",
-                url: "https://erb-tech.com",
+                url: "https://engineer-it-all.com",
                 email: "eric@erb-tech.com",
             },
         },
 
         servers: [
             {
-                url: "https://localhost:34349",
+                url: "http://localhost:34349",
                 description: "My API Documentation",
             },
         ],

@@ -6,10 +6,8 @@ info:
     email: eric@erb-tech.com
   version: 1.0.0
 servers:
-  - url: https://erb-tech.com
-    description: https url
-  - url: http://erb-tech.com
-    description: http route
+  - url: http://localhost:34349
+    description: http url
 paths:
   /add:
     post:
