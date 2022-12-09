@@ -3,9 +3,48 @@ const bodyParser = require('body-parser');
 const math = require('mathjs');
 const router = express.Router();
 router.use(bodyParser.json());
+const Connection = require('tedious').Connection;
+
+
+function connect() {
+    const config = {
+        // server: '192.168.137.1',
+        authentication: {
+            // instanceName: 'Eric-MSI-LT\\LOCALDB#EC3FD892',
+            type: 'default',
+            options: {
+                userName: 'sa', // update me
+                password: '' // update me
+            }
+        },
+        options: {
+            database: 'Calc'
+        }
+    }
+    const connection = new Connection(config);
+    connection.connect((err) => {
+        if (err) {
+            console.log('Connection Failed');
+            throw err;
+        } else {
+            console.log('No errors');
+        }
+
+        // executeStatement();
+    });
+    
+}
+
 
 router.post("/login", (req, res) => {
     const user = req.body;
+    
+    // console.log(connection);
+    connect();
+    // console.log("obj", req);
+    // console.log("obj", user);
+    console.log("user name:", user.username);
+    console.log("password", user.password);
 
     const username = user.username || undefined;
     const password = user.password || undefined;
