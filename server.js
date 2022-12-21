@@ -3,55 +3,49 @@ const bodyParser = require('body-parser');
 const math = require('mathjs');
 const router = express.Router();
 router.use(bodyParser.json());
-const Connection = require('tedious').Connection;
+const { Client } = require('pg');
 
-
-function connect() {
-    const config = {
-        // server: '192.168.137.1',
-        authentication: {
-            // instanceName: 'Eric-MSI-LT\\LOCALDB#EC3FD892',
-            type: 'default',
-            options: {
-                userName: 'sa', // update me
-                password: '' // update me
-            }
-        },
-        options: {
-            database: 'Calc'
-        }
-    }
-    const connection = new Connection(config);
-    connection.connect((err) => {
-        if (err) {
-            console.log('Connection Failed');
-            throw err;
-        } else {
-            console.log('No errors');
-        }
-
-        // executeStatement();
-    });
+async function connect() {
+    const connectionString = "postgres://postgres:1006@localhost:5433/postgres";
     
+    try {
+        const client = new Client({
+            connectionString: connectionString
+        });
+
+        client.connect();
+        return client;
+    } catch(e) {
+        console.log(e);
+        throw e;
+    }
 }
 
 
-router.post("/login", (req, res) => {
+router.post("/login", async (req, res) => {
     const user = req.body;
-    
-    // console.log(connection);
-    connect();
-    // console.log("obj", req);
-    // console.log("obj", user);
-    console.log("user name:", user.username);
-    console.log("password", user.password);
-
+    console.log(req);
     const username = user.username || undefined;
     const password = user.password || undefined;
+    console.log('username:', username);
+    console.log('password:', password);
 
-    if (!username || !password) {
+    if (!username === undefined || !password === undefined) {
         res.status(400).send();
     }
+    
+    const client = await connect();
+    const insertUser = 'INSERT INTO public."User"("userId", "userName", "password", "isActive") VALUES ($1, $2, $3, $4)';
+    const values = [2, username, password, true];
+    // const selectUsers = 'select * from public."User";'
+    try {
+        const result = await client.query(insertUser, values);
+        console.log(result);
+    } catch(e) {
+       console.log(e);
+    }
+    
+    await client.end();
 
     res.status(200).send();
 })

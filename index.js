@@ -1,9 +1,11 @@
+"use strict";
 const express = require('express')
 const swaggerUI = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
 const server = require('./server');
 const dotenv = require('dotenv');
 const cors = require('cors');
+
 dotenv.config();
 
 const port = process.env.PORT || 5000;
@@ -12,7 +14,7 @@ const app = express();
 app.use(server);
 app.use(cors());
 
-const options = {
+let options = {
     definition: {
         openapi: "3.0.0",
         info: {
@@ -35,7 +37,7 @@ const options = {
     },
     apis: ['./docs/openapi_3.yaml'],
 }
-
 const specs = swaggerJsdoc(options);
+
 app.use("/", swaggerUI.serve, swaggerUI.setup(specs));
 app.listen(port, () => console.log(`Listening on port ${port}`))
