@@ -24,23 +24,36 @@ async function connect() {
 
 router.post("/login", async (req, res) => {
     const user = req.body;
-    console.log(req);
-    const username = user.username || undefined;
-    const password = user.password || undefined;
-    console.log('username:', username);
-    console.log('password:', password);
-
-    if (!username === undefined || !password === undefined) {
-        res.status(400).send();
+    
+    const username = user?.username;
+    const password = user?.password;
+    
+    if (username === undefined || password === undefined) {
+        return res.status(400).send();
     }
     
     const client = await connect();
+    let values = [];
+    
+    const selectUser = 'SELECT * FROM public."User" WHERE "User".userName = $1';
+    values = [username];
+    
+    try {
+        const result = await client.query(selectUser, values);
+        console.log(result);
+        if(result) {
+            return res.status(200).send('duplicate user');
+        }
+    } catch(e) {
+        console.log(e);
+    }
+    
     const insertUser = 'INSERT INTO public."User"("userId", "userName", "password", "isActive") VALUES ($1, $2, $3, $4)';
-    const values = [2, username, password, true];
+    values = [2, username, password, true];
+    
     // const selectUsers = 'select * from public."User";'
     try {
-        const result = await client.query(insertUser, values);
-        console.log(result);
+        await client.query(insertUser, values);
     } catch(e) {
        console.log(e);
     }
