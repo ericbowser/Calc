@@ -47,13 +47,14 @@ router.post("/login", async (req, res) => {
         result = await client.query(selectUser, values);
         if (result.rows.length > 0) {
             console.log('gets here')
-            return res.status(200).send('duplicate user');
+            res.status(200).send('duplicate user');
+            return;
         }
     } catch(e) {
         console.log(e);
     }
     
-    const insertUser = 'INSERT INTO public."User"("username", "password", "isactive") VALUES ($1, $2, $3)';
+    const insertUser = 'INSERT INTO public."User"("username", "password", "active") VALUES ($1, $2, $3)';
     values = [username, password, true];
     
     // const selectUsers = 'select * from public."User";'
