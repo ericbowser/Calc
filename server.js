@@ -1,72 +1,33 @@
 ﻿const express = require('express');
 const bodyParser = require('body-parser');
 const math = require('mathjs');
+const {login} = require('./postgres/login');
+const {isEmpty} = require('lodash');
+
 const router = express.Router();
 router.use(bodyParser.json());
-const { Client } = require('pg');
-const dotenv = require("dotenv");
-const config = dotenv.config();
 
-console.log("config in server", config);
-const connectionString = `postgres://${config.parsed.DB_USER}:${config.parsed.DB_PASSWORD}@${config.parsed.DB_SERVER}:${config.parsed.DB_PORT}/${config.parsed.DB_USER}`;
-
-async function connect() {
-    console.log("conn str: ", connectionString);
-    try {
-        const client = new Client({
-            connectionString: connectionString
-        });
-
-        client.connect();
-        return client;
-    } catch(e) {
-        console.log(e);
-        throw e;
-    }
-}
-
-
-router.post("/login", async (req, res) => {
+router.post("/login",  async (req, res) => {
     const user = req.body;
     
-    const username = user?.username;
-    const password = user?.password;
-    
-    if (username === undefined || password === undefined) {
-        return res.status(400).send();
+    if (isEmpty(user?.username) || isEmpty(user?.password)) {
+        return res.status(400).send('Bad Request');
     }
+   
+    const status = await login(user);
+    console.log('returned login status', status);
     
-    const client = await connect();
-    let values = [];
-    
-    const selectUser = 'SELECT * FROM public."User" WHERE "username" = $1';
-    values = [username];
-    
-    let result = null;
-    try {
-        result = await client.query(selectUser, values);
-        if (result.rows.length > 0) {
-            console.log('gets here')
-            res.status(200).send('duplicate user');
-            return;
-        }
-    } catch(e) {
-        console.log(e);
+    switch(status) {
+        case 200:
+            console.log('success!');
+            return res.status(200).send('success');
+        case 409:
+            console.log('duplicate user');
+            return res.status(409).send("duplicate user");
+        case 500:
+            console.log('server error');
+            return res.status(500).send("server error");
     }
-    
-    const insertUser = 'INSERT INTO public."User"("username", "password", "active") VALUES ($1, $2, $3)';
-    values = [username, password, true];
-    
-    // const selectUsers = 'select * from public."User";'
-    try {
-        await client.query(insertUser, values);
-    } catch(e) {
-       console.log(e);
-    }
-    
-    await client.end();
-
-    res.status(200).send();
 })
 
 router.post("/add", (req, res) => {
