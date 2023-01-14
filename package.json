@@ -1,4 +1,5 @@
 {
+  "HTTPS": true,
   "name": "calc",
   "version": "1.0.0",
   "description": "Calculator API",

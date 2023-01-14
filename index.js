@@ -4,12 +4,21 @@ const swaggerUI = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
 const server = require('./server');
 const cors = require('cors');
+const https = require('node:https');
+const fs = require('fs');
+
+const httpsOptions = {
+    key: fs.readFileSync('certs/privatekey.pem'),
+    cert: fs.readFileSync('certs/cert.pem'),
+};
+console.log(httpsOptions);
 
 const port = process.env.PORT || 34349;
 console.log('passed port to use', port);
 const app = express();
 app.use(server);
 app.use(cors());
+const httpsServer = https.createServer(httpsOptions, app);
 
 let options = {
     definition: {
@@ -27,7 +36,7 @@ let options = {
 
         servers: [
             {
-                url: "http://localhost:34349",
+                url: "https://localhost:34349",
                 description: "My API Documentation",
             },
         ],
@@ -37,4 +46,4 @@ let options = {
 const specs = swaggerJsdoc(options);
 
 app.use("/", swaggerUI.serve, swaggerUI.setup(specs));
-app.listen(port, () => console.log(`Listening on port ${port}`))
+httpsServer.listen(port, () => console.log(`Listening on port ${port}`))
