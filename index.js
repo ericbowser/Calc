@@ -5,7 +5,10 @@ const swaggerJsdoc = require('swagger-jsdoc');
 const server = require('./server');
 const cors = require('cors');
 const https = require('node:https');
+const http = require('node:http');
 const fs = require('fs');
+const dotenv = require("dotenv");
+const config = dotenv.config();
 
 const httpsOptions = {
     key: fs.readFileSync('certs/privatekey.pem'),
@@ -13,15 +16,20 @@ const httpsOptions = {
 };
 console.log(httpsOptions);
 
-const port = process.env.PORT || 34349;
-console.log('passed port to use', port);
+const httpsPort = config.parsed.HTTPS_PORT || 34349;
+const httpPort = config.parsed.HTTP_PORT || 34361;
+console.log('passed port to use for https', httpsPort);
+console.log('passed port to use for http', httpPort);
+
 const app = express();
 app.use(server);
 app.use(cors());
 const httpsServer = https.createServer(httpsOptions, app);
+const httpServer = http.createServer(app);
 
 let options = {
     definition: {
+        schemes: ['http', 'https'],
         openapi: "3.0.0",
         info: {
             title: "Calc API",
@@ -39,6 +47,10 @@ let options = {
                 url: "https://localhost:34349",
                 description: "My API Documentation",
             },
+            {
+                url: "http://localhost:34361",
+                description: "My API Documentation",
+            },
         ],
     },
     apis: ['./docs/openapi_3.yaml'],
@@ -46,4 +58,5 @@ let options = {
 const specs = swaggerJsdoc(options);
 
 app.use("/", swaggerUI.serve, swaggerUI.setup(specs));
-httpsServer.listen(port, () => console.log(`Listening on port ${port}`))
+httpsServer.listen(httpsPort, () => console.log(`Listening on port ${httpsPort}`));
+httpServer.listen(httpPort, () => console.log(`Listening on port ${httpPort}`));
