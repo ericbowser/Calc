@@ -5,6 +5,7 @@
   "description": "Calculator API",
   "main": "index.js",
   "scripts": {
+    "serve": "npm run serve",
     "forever": "forever index.js",
     "dev": "nodemon index.js",
     "build": "node build",
@@ -28,6 +29,7 @@
     "npx": "^10.2.2",
     "pg": "^8.8.0",
     "router": "^1.3.7",
+    "serve": "^14.1.2",
     "swagger-jsdoc": "^6.2.5",
     "swagger-ui-express": "^4.5.0"
   },
