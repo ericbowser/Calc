@@ -44,11 +44,11 @@ let options = {
 
         servers: [
             {
-                url: "https://mytechsoles.com/swagger",
+                url: "https://mytechsoles.com:34349/",
                 description: "My API Documentation",
             },
             {
-                url: "http://localhost/swagger",
+                url: "http://localhost:34361/",
                 description: "My API Documentation",
             },
         ],
