@@ -17,11 +17,13 @@ async function login(user) {
             return 409;
         }
         
-        const insertUser = 'INSERT INTO public."User"("username", "password", "isactive") VALUES ($1, $2, $3)';
+        const insertUser = 'INSERT INTO public."User"("username", "password", "active") VALUES ($1, $2, $3)';
         values = [username, password, true];
 
         const rows = await client.query(insertUser, values);
-        console.log('rows affected', rows);
+        if (rows) {
+            console.log('rows affected', rows?.rowCount);
+        }
         
         // success
         return 200;
