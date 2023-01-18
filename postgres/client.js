@@ -2,8 +2,8 @@
 const dotenv = require("dotenv");
 const config = dotenv.config();
 
-const connectionString = 'postgresql://linpostgres:8nr7zwBT-myFQYaP@lin-13722-4143-pgsql-primary.servers.linodedb.net:5432/postgres';
-    // `postgres://${config.parsed.DB_USER}:${config.parsed.DB_PASSWORD}@${config.parsed.DB_SERVER}:${config.parsed.DB_PORT}/${config.parsed.DB_USER}`;
+const connectionString =
+    `postgresql://${config.parsed.DB_USER}:${config.parsed.DB_PASSWORD}@${config.parsed.DB_SERVER}:${config.parsed.DB_PORT}/postgres`;
 
 async function connect() {
     console.log("config in server", config, connectionString);

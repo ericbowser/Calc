@@ -44,7 +44,7 @@ let options = {
 
         servers: [
             {
-                url: "https://mytechsoles.com:34349/",
+                url: "https://mytechsoles.com/swagger",
                 description: "My API Documentation",
             },
             {
