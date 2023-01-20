@@ -29,7 +29,7 @@ const httpServer = http.createServer(app);
 
 let options = {
     definition: {
-        schemes: ['http', 'https'],
+        schemes: ['http'],
         openapi: "3.0.0",
         info: {
             title: "Calc API",
@@ -44,11 +44,11 @@ let options = {
 
         servers: [
             {
-                url: "https://mytechsoles.com:34349/",
+                url: "https://mytechsoles.com/",
                 description: "My API Documentation",
             },
             {
-                url: "http://localhost:34361/",
+                url: "http://localhost:34361/swagger",
                 description: "My API Documentation",
             },
         ],
