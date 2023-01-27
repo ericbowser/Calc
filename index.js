@@ -8,7 +8,8 @@ const https = require('node:https');
 const http = require('node:http');
 const fs = require('fs');
 const dotenv = require("dotenv");
-const config = dotenv.config();
+const Path = require('path');
+const config = dotenv.config({path: Path.resolve(__dirname, 'env/.env')});
 
 const httpsOptions = {
     key: fs.readFileSync('certs/privatekey.pem'),
