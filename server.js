@@ -22,13 +22,15 @@ router.post("/login", async (req, res) => {
   switch (status) {
     case 200:
       console.log('success!');
-      res.status(200).send('success');
+      return res.status(200).send('success');
     case 409:
       console.log('duplicate user');
-      res.status(409).send("duplicate user");
+      return res.status(409).send("duplicate user");
     case 500:
       console.log('server error');
-      res.status(500).send("server error");
+      return res.status(500).send("server error");
+    default:
+      return res.status(500).send("Unknown error");
   }
 })
 
@@ -99,15 +101,13 @@ router.post("/div", (req, res) => {
 })
 
 router.post("/sqrt", (req, res) => {
-  const number = req.body;
-
-  const sqrt = number.sqrt || undefined;
-
-  if (!sqrt) {
+  const number = req.body.number;
+  
+  if (!number) {
     res.status(400).send();
   }
 
-  const result = math.sqrt(sqrt);
+  const result = math.sqrt(number);
   const response = {result};
 
   res.status(200).send(response);
