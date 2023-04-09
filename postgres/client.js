@@ -12,6 +12,8 @@ const config = dotenv.config(options);
 const connectionString =
   `postgresql://${config.parsed.DB_USER}:${config.parsed.DB_PASSWORD}@${config.parsed.DB_SERVER}:${config.parsed.DB_PORT}/postgres`;
 
+console.log(connectionString);
+
 async function connect() {
   console.log("config in server", config, connectionString);
   let client = null;

@@ -45,7 +45,7 @@ let options = {
 
         servers: [
             {
-                url: "https://mytechsoles.com/",
+                url: "https://localhost:34349/",
                 description: "My API Documentation",
             },
             {
