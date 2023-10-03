@@ -7,12 +7,8 @@ async function login(user) {
   try {
     const client = await connect();
     
-    if (loginType === 'login') {
-      const loginStatus = loginUser(userParams, client);
-      return loginStatus;
-    } else if (loginType === 'register') {
-      const registerStatus = registerUser(user, client);
-      return registerStatus;
+    if (client) {
+      return registerUser(user, client);
     }
   } catch (e) {
     console.log(e);

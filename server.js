@@ -7,6 +7,15 @@ const {isEmpty} = require('lodash');
 const router = express.Router();
 router.use(bodyParser.json());
 
+
+router.get("/code", async (req, res) => {
+  console.log(this.window.location.search);
+  console.log('request', req.body);
+
+
+  return res.status(200).send("/code path called node GET endpoint")
+});
+
 router.post("/login", async (req, res) => {
   const request = req.body;
   
@@ -22,7 +31,7 @@ router.post("/login", async (req, res) => {
   switch (status) {
     case 200:
       console.log('success!');
-      return res.status(200).send('success');
+      return res.status(200).json('success');
     case 409:
       console.log('duplicate user');
       return res.status(409).send("duplicate user");

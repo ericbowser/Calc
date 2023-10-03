@@ -3,14 +3,15 @@ const dotenv = require("dotenv");
 const path = require('path');
 
 // Change .env based on local dev or prod
-const path1 = path.resolve(__dirname, '../env/.env');
+const env = path.resolve(__dirname, '../env/.env');
 const options = {
-  path: path1
+  path: env
 };
 const config = dotenv.config(options);
+console.log('config', config);
 
 const connectionString =
-  `postgresql://${config.parsed.DB_USER}:${config.parsed.DB_PASSWORD}@${config.parsed.DB_SERVER}:${config.parsed.DB_PORT}/postgres`;
+  `postgres://${config.parsed.DB_USER}:${config.parsed.DB_PASSWORD}@${config.parsed.DB_SERVER}:${config.parsed.DB_PORT}/postgres`;
 
 console.log(connectionString);
 
@@ -20,7 +21,7 @@ async function connect() {
   try {
     client = new Client({
       connectionString: connectionString,
-      ssl: 'no-verify'
+      ssl: false
     });
 
     await client.connect();
