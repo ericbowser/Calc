@@ -3,14 +3,16 @@ const bodyParser = require('body-parser');
 const math = require('mathjs');
 const {login} = require('./postgres/login');
 const {isEmpty} = require('lodash');
+const url = require('url')
 
 const router = express.Router();
 router.use(bodyParser.json());
 
 
-router.get("/code", async (req, res) => {
-  console.log(this.window.location.search);
-  console.log('request', req.body);
+router.get('/:code', async (req, res) => {
+  const url_parts = url.parse(req.url);
+
+  console.log(url_parts);
 
 
   return res.status(200).send("/code path called node GET endpoint")
