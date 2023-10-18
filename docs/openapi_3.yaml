@@ -2,8 +2,6 @@
 info:
   title: Simple Calc API
   description: This is a simple Calc API
-  contact:
-    email: eric@erb-tech.com
   version: 1.0.0
 servers:
   - url: http://localhost:34349

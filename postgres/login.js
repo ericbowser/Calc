@@ -1,14 +1,13 @@
 ﻿const {connect} = require('./client');
 
 async function login(user) {
-  const {username, password, loginType} = user;
+  const {username, password } = user;
   const userParams = { username, password };
 
   try {
     const client = await connect();
-    
     if (client) {
-      return registerUser(user, client);
+      return loginUser(user, client);
     }
   } catch (e) {
     console.log(e);
@@ -22,9 +21,12 @@ async function loginUser(userParams, client) {
   const values = [username, password];
   const result = await client.query(selectUser, values);
   if (result && result?.rowCount === 1) {
-    
+    return {
+      message: 'user exists',
+      code: 409
+    };
   } else if(result?.rowCount === 0) {
-    
+    return await registerUser(userParams, client);
   }
 }
 
@@ -38,11 +40,17 @@ async function registerUser(userParams, client) {
     console.log("User is registered");
 
     // success
-    return 200;
+    return {
+      message: 'success',
+      code: 200
+    };
   }
   
   // error
-  return 500;
+  return {
+    message: 'server error',
+    code: 500
+  };
 }
 
 module.exports = {login};

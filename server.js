@@ -9,14 +9,14 @@ const router = express.Router();
 router.use(bodyParser.json());
 
 
-router.get('/:code', async (req, res) => {
-  const url_parts = url.parse(req.url);
-
-  console.log(url_parts);
-
-
-  return res.status(200).send("/code path called node GET endpoint")
-});
+// router.get('/:code', async (req, res) => {
+//   const url_parts = url.parse(req.url);
+//
+//   console.log(url_parts);
+//
+//
+//   return res.status(200).send("/code path called node GET endpoint")
+// });
 
 router.post("/login", async (req, res) => {
   const request = req.body;
@@ -27,10 +27,10 @@ router.post("/login", async (req, res) => {
     res.status(400).send('Bad Request');
   }
 
-  const status = await login(request);
-  console.log('returned login status', status);
+  const response = await login(request);
+  console.log('returned login status', response.message);
 
-  switch (status) {
+  switch (response.code) {
     case 200:
       console.log('success!');
       return res.status(200).json('success');
