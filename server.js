@@ -3,7 +3,6 @@ const bodyParser = require('body-parser');
 const math = require('mathjs');
 const {login} = require('./postgres/login');
 const {isEmpty} = require('lodash');
-const url = require('url')
 
 const router = express.Router();
 router.use(bodyParser.json());
@@ -113,6 +112,7 @@ router.post("/div", (req, res) => {
 
 router.post("/sqrt", (req, res) => {
   const number = req.body.number;
+  console.log(number)
   
   if (!number) {
     res.status(400).send();
