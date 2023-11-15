@@ -5,4 +5,7 @@
 ## Data -> PostgreSQL
 Swagger API Specification
 
+### Build: npm run build
+### start: Uses react scripts until Webpack and Babel
+
 
