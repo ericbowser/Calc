@@ -7,17 +7,11 @@ const https = require('node:https');
 const http = require('node:http');
 const dotenv = require("dotenv");
 const Path = require('path');
-const config = dotenv.config({path: Path.resolve(__dirname, 'env/.env')});
+const config = dotenv.config({path: Path.resolve(__dirname, '.env')});
 
-/*
-const httpsOptions = {
-    key: fs.readFileSync('certs/privatekey.pem'),
-    cert: fs.readFileSync('certs/cert.pem'),
-};
-*/
+const httpsPort = config.parsed.HTTPS_PORT || 8081;
+const httpPort = config.parsed.HTTP_PORT || 8082;
 
-const httpsPort = config.parsed.HTTPS_PORT || 34349;
-const httpPort = config.parsed.HTTP_PORT || 34350;
 console.log('passed port to use for https', httpsPort);
 console.log('passed port to use for http', httpPort);
 
@@ -37,18 +31,18 @@ let options = {
             description: "A simple Express Calc API",
             contact: {
                 name: "API Support",
-                url: "http://localhost:34349/",
-                email: "eric.bowser@maersk.com",
+                url: `http://localhost:${httpPort}/`,
+                email: "erbows@collar-culture.com",
             },
         },
 
         servers: [
             {
-                url: "https://localhost:34350/",
+                url: `https://localhost:${httpsPort}/`,
                 description: "My HTTPS API Documentation",
             },
             {
-                url: "http://localhost:34349/",
+                url: `http://localhost:${httpPort}/`,
                 description: "My HTTP API Documentation",
             },
         ],

@@ -1,6 +1,7 @@
 ﻿const {connect} = require('./client');
 
 async function login(user) {
+  console.log('user', user);
   const {username, password } = user;
   const userParams = { username, password };
 

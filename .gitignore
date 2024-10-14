@@ -27,3 +27,8 @@ yarn-error.log*
 .idea
 .vscode
 .docs/.swagger-codegen/
+
+.env*
+.flaskenv*
+!.env.project
+!.env.vault
